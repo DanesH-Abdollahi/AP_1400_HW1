@@ -26,6 +26,14 @@ vector
 hw1.h
 /usr/src/app/src/hw1.h
 
+/usr/src/app/src/main.cpp
+hw1.h
+/usr/src/app/src/hw1.h
+gtest/gtest.h
+-
+iostream
+-
+
 /usr/src/app/src/unit_test.cpp
 hw1.h
 /usr/src/app/src/hw1.h
