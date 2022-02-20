@@ -102,7 +102,8 @@ Matrix algebra::sum(const Matrix& matrix1, const Matrix& matrix2)
         throw std::logic_error("matrices with wrong dimensions cannot be Summed");
 
     Matrix Summ { algebra::zeros(matrix1.size(), matrix1[0].size()) };
-    if (matrix1.size() == matrix2.size() && matrix1[0].size() == matrix2[0].size()) {
+    if (matrix1.size() == matrix2.size()
+        && matrix1[0].size() == matrix2[0].size()) {
         for (size_t i {}; i < matrix1.size(); i++)
             for (size_t j {}; j < matrix1[0].size(); j++)
                 Summ[i][j] += matrix1[i][j] + matrix2[i][j];
@@ -133,5 +134,24 @@ Matrix algebra::minor(const Matrix& matrix, size_t n, size_t m)
     Temp = algebra::transpose(Temp);
     Temp.erase(Temp.begin() + m);
     return algebra::transpose(Temp);
+}
+//------------------------------------------------------------------------------------------
+double algebra::determinant(const Matrix& matrix)
+{
+    if (matrix.empty())
+        return 1;
+    if (matrix.size() != matrix[0].size())
+        throw std::logic_error("non-square matrices have no determinant");
+    if (matrix.size() == 2 && matrix[0].size() == 2)
+        return matrix[0][0] * matrix[1][1] + matrix[0][1] * matrix[1][0];
+
+    Matrix Temp { matrix };
+    static double Det {};
+    for (size_t i {}; i < matrix[0].size(); i++)
+        Det += std::pow(-1, 1 + i + 1) * Temp[0][i] * algebra::determinant(algebra::minor(Temp, 0, i));
+
+    std::cout << Det << std::endl;
+
+    return round(Det);
 }
 //------------------------------------------------------------------------------------------

@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 ../include/hw1.h
+cmath
+-
 iomanip
 -
 iostream

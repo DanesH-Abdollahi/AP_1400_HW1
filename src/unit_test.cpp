@@ -206,19 +206,20 @@ TEST(HW1Test, MINOR2)
     EXPECT_DOUBLE_EQ(minor[1][0], matrix[2][0]);
     EXPECT_DOUBLE_EQ(minor[1][1], matrix[2][2]);
 }
-/*
-TEST(HW1Test, DETERMINANT1) {
+
+TEST(HW1Test, DETERMINANT1)
+{
     // Caution: determinant of an empty matrix
-    EXPECT_EQ(algebra::determinant(Matrix{}), 1);
+    EXPECT_EQ(algebra::determinant(Matrix {}), 1);
 
     // Caution: non-square matrices have no determinant
-    EXPECT_THROW(algebra::determinant(Matrix{{1, 2, 3}, {4, 5, 6}}), std::logic_error);
+    EXPECT_THROW(algebra::determinant(Matrix { { 1, 2, 3 }, { 4, 5, 6 } }), std::logic_error);
 
     // test case
-    Matrix matrix{{-1, 1.5, -1.75, -2}, {-2, 2.5, -2.75, -3}, {3, 3.5, -3.75, -4}, {4, 4.5, 4.75, -5}};
+    Matrix matrix { { -1, 1.5, -1.75, -2 }, { -2, 2.5, -2.75, -3 }, { 3, 3.5, -3.75, -4 }, { 4, 4.5, 4.75, -5 } };
     EXPECT_NEAR(algebra::determinant(matrix), -28.5, 0.03);
 }
-
+/*
 TEST(HW1Test, DETERMINANT2) {
     // test case
     Matrix matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
