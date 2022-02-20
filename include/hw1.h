@@ -10,6 +10,7 @@
 #include <vector>
 
 using Matrix = std::vector<std::vector<double>>;
+
 namespace algebra {
 Matrix zeros(size_t n, size_t m);
 Matrix ones(size_t n, size_t m);
