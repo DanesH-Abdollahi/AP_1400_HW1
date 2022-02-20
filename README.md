@@ -187,26 +187,3 @@ implement this function so that it will calculate the upper triangular form of t
 You should keep track of these misbehaviours that may happen in your functions and throw a `logic error` in these cases.
 if you are not familiar of how to throw errors just try to google it. don't worry it will be the simplest part of the homework :stuck_out_tongue_winking_eye:
 - other than logic errors you should consider that the users may try to use empty matrices with your functions. (for example the determinant of an empty matrix is 1). keep this in mind in all your implementations.
-
-# Finally
-As mentioned before, keep all your implementations in `hw1.cpp` and `hw1.h`. do not alter other files at all. In case you want to test your code you may only use the `debug` section of the `main.cpp` which will be explained in the TA class.
-
-```cpp
-if (true) // make false to run unit tests  
-{ 
-	// debug section 
-}  
-else  
-{  
-	::testing::InitGoogleTest(&argc, argv);  
-	std::cout << "RUNNING TESTS ..." << std::endl;  
-	int ret{RUN_ALL_TESTS()};  
-	if (!ret)  
-		std::cout << "<<<SUCCESS>>>" << std::endl;  
-	else  
-	  std::cout << "FAILED" << std::endl;  
-}  
-return 0;
-```
-<br/>
-<p  align="center"> <b>GOOD LUCK</b> </p>
