@@ -9,7 +9,7 @@ Matrix algebra::zeros(size_t n, size_t m)
     }
     return output;
 }
-
+//------------------------------------------------------------------------------------------
 Matrix algebra::ones(size_t n, size_t m)
 {
     Matrix output;
@@ -19,7 +19,7 @@ Matrix algebra::ones(size_t n, size_t m)
     }
     return output;
 }
-
+//------------------------------------------------------------------------------------------
 Matrix algebra::random(size_t n, size_t m, double min, double max)
 {
     if (min > max)
@@ -38,19 +38,20 @@ Matrix algebra::random(size_t n, size_t m, double min, double max)
     }
     return output;
 }
-
+//------------------------------------------------------------------------------------------
 void algebra::show(const Matrix& matrix)
 {
     std::cout << std::endl;
     for (size_t i {}; i < matrix.size(); i++) {
-        std::cout << std::setw(10) << std::left << "|";
+        std::cout << std::fixed << "|";
         for (size_t j {}; j < matrix[0].size(); j++) {
-            std::cout << std::setw(10) << std::left << std::setprecision(3)
+            std::cout << std::setw(7) << std::fixed << std::setprecision(3)
                       << std::showpos << matrix[i][j] << " ";
         }
         std::cout << "|" << std::endl;
     }
 }
+//------------------------------------------------------------------------------------------
 Matrix algebra::multiply(const Matrix& matrix, double c)
 {
     Matrix temp { matrix };
@@ -60,11 +61,77 @@ Matrix algebra::multiply(const Matrix& matrix, double c)
 
     return temp;
 }
-
+//------------------------------------------------------------------------------------------
 Matrix algebra::multiply(const Matrix& matrix1, const Matrix& matrix2)
 {
-    if (matrix1[0].size() == matrix.size())
+    if (matrix1.empty() || matrix2.empty()) {
+        return Matrix {};
+    }
+
+    if (matrix1[0].size() != matrix2.size())
         throw std::logic_error("matrices with wrong dimensions cannot be multiplied");
 
-    Matrix Output = algebra::zeros(matrix1.size(), matrix2[0].size());
+    else {
+        Matrix Output { algebra::zeros(matrix1.size(), matrix2[0].size()) };
+        for (size_t i {}; i < matrix1.size(); i++)
+            for (size_t j {}; j < matrix2[0].size(); j++)
+                for (size_t k {}; k < matrix2.size(); k++)
+                    Output[i][j] += matrix1[i][k] * matrix2[k][j];
+        return Output;
+    }
 }
+//------------------------------------------------------------------------------------------
+Matrix algebra::sum(const Matrix& matrix, double c)
+{
+    if (matrix.empty())
+        return Matrix {};
+
+    Matrix temp { matrix };
+    for (size_t i {}; i < matrix.size(); i++)
+        for (size_t j {}; j < matrix[0].size(); j++)
+            temp[i][j] += c;
+
+    return temp;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::sum(const Matrix& matrix1, const Matrix& matrix2)
+{
+    if (matrix1.empty() && matrix2.empty()) {
+        return Matrix {};
+    } else if (matrix1.empty() || matrix2.empty())
+        throw std::logic_error("matrices with wrong dimensions cannot be Summed");
+
+    Matrix Summ { algebra::zeros(matrix1.size(), matrix1[0].size()) };
+    if (matrix1.size() == matrix2.size() && matrix1[0].size() == matrix2[0].size()) {
+        for (size_t i {}; i < matrix1.size(); i++)
+            for (size_t j {}; j < matrix1[0].size(); j++)
+                Summ[i][j] += matrix1[i][j] + matrix2[i][j];
+    } else
+        throw std::logic_error("matrices with wrong dimensions cannot be Summed");
+    return Summ;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::transpose(const Matrix& matrix)
+{
+    if (matrix.empty())
+        return Matrix {};
+
+    Matrix Trans { algebra::zeros(matrix[0].size(), matrix.size()) };
+    for (size_t i {}; i < matrix.size(); i++)
+        for (size_t j {}; j < matrix[0].size(); j++)
+            Trans[j][i] = matrix[i][j];
+    return Trans;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::minor(const Matrix& matrix, size_t n, size_t m)
+{
+    if (matrix.empty())
+        return Matrix {};
+
+    Matrix Temp { matrix };
+    Temp.erase(Temp.begin() + n);
+    Temp = algebra::transpose(Temp);
+    Temp.erase(Temp.begin() + m);
+    return algebra::transpose(Temp);
+}
+//------------------------------------------------------------------------------------------

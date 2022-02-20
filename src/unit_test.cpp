@@ -84,11 +84,12 @@ TEST(HW1Test, MULTIPLY2)
     // Caution: matrices with wrong dimensions cannot be multiplied
     EXPECT_THROW(algebra::multiply(Matrix { { 1, 2, 3 }, { 4, 5, 6 } }, Matrix { { 1, 2, 3 }, { 4, 5, 6 } }), std::logic_error);
 }
-/*
-TEST(HW1Test, MULTIPLY3) {
-    Matrix matrix1{{-3, 3, 1.7}, {4, -4, 2.6}, {-5, 5, 3.5}};
-    Matrix matrix2{{2.5}, {-2}, {-5.5}};
-    Matrix matrix{algebra::multiply(matrix1, matrix2)};
+
+TEST(HW1Test, MULTIPLY3)
+{
+    Matrix matrix1 { { -3, 3, 1.7 }, { 4, -4, 2.6 }, { -5, 5, 3.5 } };
+    Matrix matrix2 { { 2.5 }, { -2 }, { -5.5 } };
+    Matrix matrix { algebra::multiply(matrix1, matrix2) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 3);
@@ -100,10 +101,11 @@ TEST(HW1Test, MULTIPLY3) {
     EXPECT_NEAR(matrix[2][0], -41.75, 0.03);
 }
 
-TEST(HW1Test, MULTIPLY4) {
-    Matrix matrix1{{-3, 2, 1.7}, {4, -5, 2.6}, {7.2, 5, 3.5}};
-    Matrix matrix2{{6.5}, {-2}, {-5}};
-    Matrix matrix{algebra::multiply(matrix1, matrix2)};
+TEST(HW1Test, MULTIPLY4)
+{
+    Matrix matrix1 { { -3, 2, 1.7 }, { 4, -5, 2.6 }, { 7.2, 5, 3.5 } };
+    Matrix matrix2 { { 6.5 }, { -2 }, { -5 } };
+    Matrix matrix { algebra::multiply(matrix1, matrix2) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 3);
@@ -115,49 +117,52 @@ TEST(HW1Test, MULTIPLY4) {
     EXPECT_NEAR(matrix[2][0], 19.3, 0.03);
 }
 
-TEST(HW1Test, SUM1) {
+TEST(HW1Test, SUM1)
+{
     // Caution: sum of an empty matrix
-    EXPECT_TRUE(algebra::sum(Matrix{}, 1.5).empty());
+    EXPECT_TRUE(algebra::sum(Matrix {}, 1.5).empty());
 
-    Matrix matrix{algebra::random(2, 5, 0, 4)};
-    Matrix sum{algebra::sum(matrix, 2.44)};
+    Matrix matrix { algebra::random(2, 5, 0, 4) };
+    Matrix sum { algebra::sum(matrix, 2.44) };
 
     // check the size of the matrix
     EXPECT_EQ(sum.size(), 2);
     EXPECT_EQ(sum[0].size(), 5);
 
     // check the value of the elements
-    for (size_t i{}; i < sum.size(); i++)
-        for (size_t j{}; j < sum[i].size(); j++)
-            EXPECT_NEAR(sum[i][j], matrix[i][j]+2.44, 0.03);
+    for (size_t i {}; i < sum.size(); i++)
+        for (size_t j {}; j < sum[i].size(); j++)
+            EXPECT_NEAR(sum[i][j], matrix[i][j] + 2.44, 0.03);
 }
 
-TEST(HW1Test, SUM2) {
+TEST(HW1Test, SUM2)
+{
     // Caution: sum of 2 empty matrices
-    EXPECT_TRUE(algebra::sum(Matrix{}, Matrix{}).empty());
+    EXPECT_TRUE(algebra::sum(Matrix {}, Matrix {}).empty());
 
     // Caution: matrices with wrong dimensions cannot be summed
-    EXPECT_THROW(algebra::sum(Matrix{{1, 2, 3}}, Matrix{}), std::logic_error);
+    EXPECT_THROW(algebra::sum(Matrix { { 1, 2, 3 } }, Matrix {}), std::logic_error);
 
-    Matrix matrix1{algebra::random(3, 2, -1, 4)};
-    Matrix matrix2{algebra::random(3, 2, -8, -3)};
-    Matrix sum{algebra::sum(matrix1, matrix2)};
+    Matrix matrix1 { algebra::random(3, 2, -1, 4) };
+    Matrix matrix2 { algebra::random(3, 2, -8, -3) };
+    Matrix sum { algebra::sum(matrix1, matrix2) };
 
     // check the size of the matrix
     EXPECT_EQ(sum.size(), 3);
     EXPECT_EQ(sum[0].size(), 2);
 
     // check the value of the elements
-    for (size_t i{}; i < sum.size(); i++)
-        for (size_t j{}; j < sum[i].size(); j++)
-            EXPECT_NEAR(sum[i][j], matrix1[i][j]+matrix2[i][j], 0.03);
+    for (size_t i {}; i < sum.size(); i++)
+        for (size_t j {}; j < sum[i].size(); j++)
+            EXPECT_NEAR(sum[i][j], matrix1[i][j] + matrix2[i][j], 0.03);
 }
 
-TEST(HW1Test, TRANSPOSE) {
+TEST(HW1Test, TRANSPOSE)
+{
     // Caution: transpose of an empty matrix is an empty matrix
-    EXPECT_TRUE(algebra::transpose(Matrix{}).empty());
+    EXPECT_TRUE(algebra::transpose(Matrix {}).empty());
 
-    Matrix matrix{algebra::random(3, 5, -2, 5)};
+    Matrix matrix { algebra::random(3, 5, -2, 5) };
     Matrix transpose = algebra::transpose(matrix);
 
     // check the size of the matrix
@@ -165,13 +170,14 @@ TEST(HW1Test, TRANSPOSE) {
     EXPECT_EQ(transpose[0].size(), 3);
 
     // check the value of the elements
-    for (size_t i{}; i < transpose.size(); i++)
-        for (size_t j{}; j < transpose[i].size(); j++)
+    for (size_t i {}; i < transpose.size(); i++)
+        for (size_t j {}; j < transpose[i].size(); j++)
             EXPECT_DOUBLE_EQ(transpose[i][j], matrix[j][i]);
 }
 
-TEST(HW1Test, MINOR1) {
-    Matrix matrix{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
+TEST(HW1Test, MINOR1)
+{
+    Matrix matrix { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
     Matrix minor = algebra::minor(matrix, 1, 2);
 
     // check the size of the matrix
@@ -185,8 +191,9 @@ TEST(HW1Test, MINOR1) {
     EXPECT_DOUBLE_EQ(minor[1][1], matrix[2][1]);
 }
 
-TEST(HW1Test, MINOR2) {
-    Matrix matrix{{7, 2.5, 3.1}, {4.2, 5, 10.4}, {70.7, 8, 0}};
+TEST(HW1Test, MINOR2)
+{
+    Matrix matrix { { 7, 2.5, 3.1 }, { 4.2, 5, 10.4 }, { 70.7, 8, 0 } };
     Matrix minor = algebra::minor(matrix, 1, 1);
 
     // check the size of the matrix
@@ -199,7 +206,7 @@ TEST(HW1Test, MINOR2) {
     EXPECT_DOUBLE_EQ(minor[1][0], matrix[2][0]);
     EXPECT_DOUBLE_EQ(minor[1][1], matrix[2][2]);
 }
-
+/*
 TEST(HW1Test, DETERMINANT1) {
     // Caution: determinant of an empty matrix
     EXPECT_EQ(algebra::determinant(Matrix{}), 1);
