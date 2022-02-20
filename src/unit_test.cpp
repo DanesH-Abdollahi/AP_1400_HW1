@@ -1,11 +1,11 @@
 
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
 #include "hw1.h"
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
-/*
-TEST(HW1Test, ZEROS) {
-    Matrix matrix{algebra::zeros(5, 6)};
+TEST(HW1Test, ZEROS)
+{
+    Matrix matrix { algebra::zeros(5, 6) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 5);
@@ -17,8 +17,9 @@ TEST(HW1Test, ZEROS) {
             EXPECT_DOUBLE_EQ(elem, 0);
 }
 
-TEST(HW1Test, ONES) {
-    Matrix matrix{algebra::ones(7, 3)};
+TEST(HW1Test, ONES)
+{
+    Matrix matrix { algebra::ones(7, 3) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 7);
@@ -30,12 +31,13 @@ TEST(HW1Test, ONES) {
             EXPECT_DOUBLE_EQ(elem, 1);
 }
 
-TEST(HW1Test, RANDOM1) {
+TEST(HW1Test, RANDOM1)
+{
     using ::testing::AllOf;
     using ::testing::Ge;
     using ::testing::Lt;
 
-    Matrix matrix{algebra::random(4, 4, -5, 7)};
+    Matrix matrix { algebra::random(4, 4, -5, 7) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 4);
@@ -52,34 +54,37 @@ TEST(HW1Test, RANDOM1) {
     std::cout << std::endl;
 }
 
-TEST(HW1Test, RANDOM2) {
+TEST(HW1Test, RANDOM2)
+{
     // Caution: min cannot be greater than max
     EXPECT_THROW(algebra::random(3, 4, 4, 2), std::logic_error);
 }
 
-TEST(HW1Test, MULTIPLY1) {
-    Matrix matrix{algebra::random(3, 4, -4, 2)};
-    Matrix mult{algebra::multiply(matrix, 3.5)};
+TEST(HW1Test, MULTIPLY1)
+{
+    Matrix matrix { algebra::random(3, 4, -4, 2) };
+    Matrix mult { algebra::multiply(matrix, 3.5) };
 
     // check the size of the matrix
     EXPECT_EQ(mult.size(), 3);
     EXPECT_EQ(mult[0].size(), 4);
 
     // check the value of the elements
-    for (size_t i{}; i < mult.size(); i++)
-        for (size_t j{}; j < mult[i].size(); j++)
-            EXPECT_NEAR(mult[i][j], matrix[i][j]*3.5, 0.03);
+    for (size_t i {}; i < mult.size(); i++)
+        for (size_t j {}; j < mult[i].size(); j++)
+            EXPECT_NEAR(mult[i][j], matrix[i][j] * 3.5, 0.03);
 }
 
-TEST(HW1Test, MULTIPLY2) {
+TEST(HW1Test, MULTIPLY2)
+{
     // Caution: multiplication of 2 empty matrix
-    Matrix matrix{algebra::multiply(Matrix{}, Matrix{})};
+    Matrix matrix { algebra::multiply(Matrix {}, Matrix {}) };
     EXPECT_TRUE(matrix.empty());
 
     // Caution: matrices with wrong dimensions cannot be multiplied
-    EXPECT_THROW(algebra::multiply(Matrix{{1, 2, 3}, {4, 5, 6}}, Matrix{{1, 2, 3}, {4, 5, 6}}), std::logic_error);
+    EXPECT_THROW(algebra::multiply(Matrix { { 1, 2, 3 }, { 4, 5, 6 } }, Matrix { { 1, 2, 3 }, { 4, 5, 6 } }), std::logic_error);
 }
-
+/*
 TEST(HW1Test, MULTIPLY3) {
     Matrix matrix1{{-3, 3, 1.7}, {4, -4, 2.6}, {-5, 5, 3.5}};
     Matrix matrix2{{2.5}, {-2}, {-5.5}};
@@ -361,6 +366,3 @@ TEST(HW1Test, BONUS) {
     EXPECT_NEAR(res2[2][2], 39/4.0, 0.03);
 }
 */
-
-
-
