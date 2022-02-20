@@ -219,52 +219,55 @@ TEST(HW1Test, DETERMINANT1)
     Matrix matrix { { -1, 1.5, -1.75, -2 }, { -2, 2.5, -2.75, -3 }, { 3, 3.5, -3.75, -4 }, { 4, 4.5, 4.75, -5 } };
     EXPECT_NEAR(algebra::determinant(matrix), -28.5, 0.03);
 }
-/*
-TEST(HW1Test, DETERMINANT2) {
+
+TEST(HW1Test, DETERMINANT2)
+{
     // test case
-    Matrix matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
+    Matrix matrix { { 1, 1.5, -1.75, 2 }, { 2, 2.5, -2.75, 3 }, { 3, 3.5, -3.75, 4 }, { 4, 4.5, 4.75, 5 } };
     EXPECT_DOUBLE_EQ(algebra::determinant(matrix), 0);
 }
 
-TEST(HW1Test, INVERSE1) {
+TEST(HW1Test, INVERSE1)
+{
     // Caution: inverse of an empty matrix
-    EXPECT_TRUE(algebra::inverse(Matrix{}).empty());
+    EXPECT_TRUE(algebra::inverse(Matrix {}).empty());
 
     // Caution: non-square matrices have no inverse
-    EXPECT_THROW(algebra::inverse(Matrix{{1, 2, 3}, {40, 5, -6}}), std::logic_error);
+    EXPECT_THROW(algebra::inverse(Matrix { { 1, 2, 3 }, { 40, 5, -6 } }), std::logic_error);
 
     // Caution: singular matrices have no inverse
-    Matrix non_singular_matrix{{1, 1.5, -1.75, 2}, {2, 2.5, -2.75, 3}, {3, 3.5, -3.75, 4}, {4, 4.5, 4.75, 5}};
+    Matrix non_singular_matrix { { 1, 1.5, -1.75, 2 }, { 2, 2.5, -2.75, 3 }, { 3, 3.5, -3.75, 4 }, { 4, 4.5, 4.75, 5 } };
     EXPECT_THROW(algebra::inverse(non_singular_matrix), std::logic_error);
 
     // test case
-    Matrix matrix{{-1, 1.5, -1.75, -2}, {-2, 2.5, -2.75, -3}, {3, 3.5, -3.75, -4}, {4, 4.5, 4.75, -5}};
-    Matrix inverse{algebra::inverse(matrix)};
+    Matrix matrix { { -1, 1.5, -1.75, -2 }, { -2, 2.5, -2.75, -3 }, { 3, 3.5, -3.75, -4 }, { 4, 4.5, 4.75, -5 } };
+    Matrix inverse { algebra::inverse(matrix) };
     EXPECT_NEAR(inverse[0][0], 0.16, 0.03);
     EXPECT_NEAR(inverse[1][1], 3.31, 0.03);
     EXPECT_NEAR(inverse[3][1], 2.67, 0.03);
     EXPECT_NEAR(inverse[0][3], 0, 0.03);
 }
 
-
-TEST(HW1Test, INVERSE2) {
+TEST(HW1Test, INVERSE2)
+{
     // test case
-    Matrix matrix{{-12, 1.5, -1.75, -2}, {-2, 2.5, -2.75, -3}, {25, 3.5, -3.75, -4}, {4, 4.5, 4.75, -51}};
-    Matrix inverse{algebra::inverse(matrix)};
+    Matrix matrix { { -12, 1.5, -1.75, -2 }, { -2, 2.5, -2.75, -3 }, { 25, 3.5, -3.75, -4 }, { 4, 4.5, 4.75, -51 } };
+    Matrix inverse { algebra::inverse(matrix) };
     EXPECT_NEAR(inverse[0][0], 0.05, 0.03);
     EXPECT_NEAR(inverse[1][1], 18.07, 0.03);
     EXPECT_NEAR(inverse[3][1], 2.80, 0.03);
     EXPECT_NEAR(inverse[0][3], 0, 0.03);
 }
 
-TEST(HW1Test, CONCATENATE1) {
+TEST(HW1Test, CONCATENATE1)
+{
     // Caution: matrices with wrong dimensions cannot be concatenated
-    EXPECT_THROW(algebra::concatenate(Matrix{{1, 2}}, Matrix{{1, 2, 3}, {4, 5, 6}}, 0), std::logic_error);
+    EXPECT_THROW(algebra::concatenate(Matrix { { 1, 2 } }, Matrix { { 1, 2, 3 }, { 4, 5, 6 } }, 0), std::logic_error);
 
     // test case
-    Matrix matrix1{algebra::random(2, 3, 0, 1)};
-    Matrix matrix2{algebra::random(4, 3, 0, 1)};
-    Matrix matrix{algebra::concatenate(matrix1, matrix2, 0)};
+    Matrix matrix1 { algebra::random(2, 3, 0, 1) };
+    Matrix matrix2 { algebra::random(4, 3, 0, 1) };
+    Matrix matrix { algebra::concatenate(matrix1, matrix2, 0) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 6);
@@ -275,17 +278,17 @@ TEST(HW1Test, CONCATENATE1) {
     EXPECT_DOUBLE_EQ(matrix[1][2], matrix1[1][2]);
     EXPECT_DOUBLE_EQ(matrix[2][0], matrix2[0][0]);
     EXPECT_DOUBLE_EQ(matrix[5][2], matrix2[3][2]);
-
 }
 
-TEST(HW1Test, CONCATENATE2) {
+TEST(HW1Test, CONCATENATE2)
+{
     // Caution: matrices with wrong dimensions cannot be concatenated
-    EXPECT_THROW(algebra::concatenate(Matrix{{1, 2}}, Matrix{{1, 2, 3}, {4, 5, 6}}, 1), std::logic_error);
+    EXPECT_THROW(algebra::concatenate(Matrix { { 1, 2 } }, Matrix { { 1, 2, 3 }, { 4, 5, 6 } }, 1), std::logic_error);
 
     // test case
-    Matrix matrix1{algebra::random(2, 3, 0, 1)};
-    Matrix matrix2{algebra::random(2, 1, 0, 1)};
-    Matrix matrix{algebra::concatenate(matrix1, matrix2, 1)};
+    Matrix matrix1 { algebra::random(2, 3, 0, 1) };
+    Matrix matrix2 { algebra::random(2, 1, 0, 1) };
+    Matrix matrix { algebra::concatenate(matrix1, matrix2, 1) };
 
     // check the size of the matrix
     EXPECT_EQ(matrix.size(), 2);
@@ -298,13 +301,14 @@ TEST(HW1Test, CONCATENATE2) {
     EXPECT_DOUBLE_EQ(matrix[1][3], matrix2[1][0]);
 }
 
-TEST(HW1Test, ERO_SWAP) {
+TEST(HW1Test, ERO_SWAP)
+{
     // Caution: r1 or r2 inputs are out of range
-    EXPECT_THROW(algebra::ero_swap(Matrix{{1, 2}}, 0, 1), std::logic_error);
+    EXPECT_THROW(algebra::ero_swap(Matrix { { 1, 2 } }, 0, 1), std::logic_error);
 
     // test case
-    Matrix matrix{algebra::random(4, 3, 0, 4)};
-    Matrix swap{algebra::ero_swap(matrix, 2, 3)};
+    Matrix matrix { algebra::random(4, 3, 0, 4) };
+    Matrix swap { algebra::ero_swap(matrix, 2, 3) };
 
     // check the swap
     EXPECT_TRUE(swap[0] == matrix[0]);
@@ -313,38 +317,41 @@ TEST(HW1Test, ERO_SWAP) {
     EXPECT_TRUE(swap[3] == matrix[2]);
 }
 
-TEST(HW1Test, ERO_MULTIPLY) {
-    Matrix matrix{algebra::random(4, 3, 0, 4)};
-    Matrix ero{algebra::ero_multiply(matrix, 2, 1.5)};
+TEST(HW1Test, ERO_MULTIPLY)
+{
+    Matrix matrix { algebra::random(4, 3, 0, 4) };
+    Matrix ero { algebra::ero_multiply(matrix, 2, 1.5) };
 
     EXPECT_TRUE(ero[0] == matrix[0]);
     EXPECT_TRUE(ero[1] == matrix[1]);
     EXPECT_TRUE(ero[3] == matrix[3]);
 
     // check the value of the elements
-    for (size_t i{}; i < ero[2].size(); i++)
-        EXPECT_NEAR(ero[2][i], matrix[2][i]*1.5, 0.03);
+    for (size_t i {}; i < ero[2].size(); i++)
+        EXPECT_NEAR(ero[2][i], matrix[2][i] * 1.5, 0.03);
 }
 
-TEST(HW1Test, ERO_SUM) {
-    Matrix matrix{algebra::random(4, 3, 0, 4)};
-    Matrix ero{algebra::ero_sum(matrix, 0, 2, 3)};
+TEST(HW1Test, ERO_SUM)
+{
+    Matrix matrix { algebra::random(4, 3, 0, 4) };
+    Matrix ero { algebra::ero_sum(matrix, 0, 2, 3) };
 
     EXPECT_TRUE(ero[0] == matrix[0]);
     EXPECT_TRUE(ero[1] == matrix[1]);
     EXPECT_TRUE(ero[2] == matrix[2]);
 
     // check the value of the elements
-    for (size_t i{}; i < ero[3].size(); i++)
-        EXPECT_NEAR(ero[3][i], matrix[0][i]*2+matrix[3][i], 0.03);
+    for (size_t i {}; i < ero[3].size(); i++)
+        EXPECT_NEAR(ero[3][i], matrix[0][i] * 2 + matrix[3][i], 0.03);
 }
 
-TEST(HW1Test, UPPER_TRIANGULAR1) {
+TEST(HW1Test, UPPER_TRIANGULAR1)
+{
     // Caution: empty matrix
-    EXPECT_TRUE(algebra::upper_triangular(Matrix{}).empty());
+    EXPECT_TRUE(algebra::upper_triangular(Matrix {}).empty());
 
     // Caution: non-square matrices have no upper triangular form
-    EXPECT_THROW(algebra::upper_triangular(Matrix{{1, 2, 3}, {4, 5, 6}}), std::logic_error);
+    EXPECT_THROW(algebra::upper_triangular(Matrix { { 1, 2, 3 }, { 4, 5, 6 } }), std::logic_error);
 
     // test case 1
     Matrix matrix1{{1, 2}, {5, 7}};
@@ -363,6 +370,7 @@ TEST(HW1Test, UPPER_TRIANGULAR1) {
     EXPECT_NEAR(res2[2][2], 62, 0.03);
 }
 
+/*
 TEST(HW1Test, BONUS) {
     // test case
     Matrix matrix2{{0, 2, 3}, {4, 7, 5}, {6, 1, 3}};

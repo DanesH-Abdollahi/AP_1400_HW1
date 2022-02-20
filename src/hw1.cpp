@@ -64,9 +64,10 @@ Matrix algebra::multiply(const Matrix& matrix, double c)
 //------------------------------------------------------------------------------------------
 Matrix algebra::multiply(const Matrix& matrix1, const Matrix& matrix2)
 {
-    if (matrix1.empty() || matrix2.empty()) {
+    if (matrix1.empty() && matrix2.empty()) {
         return Matrix {};
-    }
+    } else if (matrix1.empty() || matrix2.empty())
+        throw std::logic_error("matrices with wrong dimensions cannot be Summed");
 
     if (matrix1[0].size() != matrix2.size())
         throw std::logic_error("matrices with wrong dimensions cannot be multiplied");
@@ -142,16 +143,115 @@ double algebra::determinant(const Matrix& matrix)
         return 1;
     if (matrix.size() != matrix[0].size())
         throw std::logic_error("non-square matrices have no determinant");
-    if (matrix.size() == 2 && matrix[0].size() == 2)
-        return matrix[0][0] * matrix[1][1] + matrix[0][1] * matrix[1][0];
+
+    // if (matrix.size() == 2 && matrix[0].size() == 2)
+    //     return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+
+    if (matrix.size() == 1 && matrix[0].size() == 1)
+        return matrix[0][0];
 
     Matrix Temp { matrix };
-    static double Det {};
-    for (size_t i {}; i < matrix[0].size(); i++)
-        Det += std::pow(-1, 1 + i + 1) * Temp[0][i] * algebra::determinant(algebra::minor(Temp, 0, i));
+    double Det {};
+    for (size_t i {}; i < Temp[0].size(); i++)
+        Det += std::pow(-1, 1 + i + 1) * Temp[0][i]
+            * algebra::determinant(algebra::minor(Temp, 0, i));
 
-    std::cout << Det << std::endl;
+    return Det;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::inverse(const Matrix& matrix)
+{
+    if (matrix.empty())
+        return Matrix {};
 
-    return round(Det);
+    if (matrix.size() != matrix[0].size())
+        throw std::logic_error("non-square matrices have no inverse");
+    if (algebra::determinant(matrix) == 0)
+        throw std::logic_error("singular matrices have no inverse");
+
+    Matrix output { algebra::zeros(matrix.size(), matrix[0].size()) };
+    for (size_t i {}; i < matrix.size(); i++)
+        for (size_t j {}; j < matrix[0].size(); j++)
+            output[i][j] = std::pow(-1, i + j + 2)
+                * algebra::determinant(algebra::minor(matrix, i, j));
+
+    output = algebra::transpose(output);
+    output = algebra::multiply(output, (1 / algebra::determinant(matrix)));
+    return output;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::concatenate(const Matrix& matrix1, const Matrix& matrix2, int axis)
+{
+    if (axis == 0 && matrix1[0].size() != matrix2[0].size())
+        throw std::logic_error("matrices with wrong dimensions cannot be concatenated");
+    if (axis == 1 && matrix1.size() != matrix2.size())
+        throw std::logic_error("matrices with wrong dimensions cannot be concatenated");
+
+    Matrix Temp { matrix1 };
+
+    if (axis == 0) {
+        for (size_t i {}; i < matrix2.size(); i++)
+            Temp.push_back(matrix2[i]);
+        return Temp;
+    }
+
+    else {
+        Temp = algebra::transpose(Temp);
+        for (size_t i {}; i < matrix2[0].size(); i++)
+            Temp.push_back(algebra::transpose(matrix2)[i]);
+
+        return algebra::transpose(Temp);
+    }
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::ero_swap(const Matrix& matrix, size_t r1, size_t r2)
+{
+    if (r1 >= matrix.size() || r2 >= matrix.size())
+        throw std::logic_error("r1 or r2 inputs are out of range");
+
+    Matrix output { matrix };
+    output[r1].swap(output[r2]);
+    return output;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::ero_multiply(const Matrix& matrix, size_t r, double c)
+{
+    Matrix output { matrix };
+    output[r].swap(algebra::multiply(matrix, c)[r]);
+    return output;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::ero_sum(const Matrix& matrix, size_t r1, double c, size_t r2)
+{
+    Matrix output { matrix };
+    Matrix temp { algebra::ero_multiply(matrix, r1, c) };
+    temp[r2].swap(temp[r1]);
+    temp = algebra::sum(temp, matrix);
+    output[r2].swap(temp[r2]);
+    return output;
+}
+//------------------------------------------------------------------------------------------
+Matrix algebra::upper_triangular(const Matrix& matrix)
+{
+    if (matrix.empty())
+        return Matrix {};
+
+    if (matrix.size() != matrix[0].size())
+        throw std::logic_error("non-square matrices have no upper triangular form");
+
+    Matrix output { matrix };
+    std::vector<size_t> r {};
+
+    for (size_t j {}; j < matrix[0].size(); j++)
+        for (size_t i { j }; i < matrix.size(); i++)
+            if (matrix[i][j] != 0) {
+                output[j].swap(output[i]);
+                break;
+            }
+
+    algebra::show(matrix);
+    algebra::show(output);
+
+    return output;
 }
 //------------------------------------------------------------------------------------------
