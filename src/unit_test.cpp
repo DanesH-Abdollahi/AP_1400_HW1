@@ -354,15 +354,15 @@ TEST(HW1Test, UPPER_TRIANGULAR1)
     EXPECT_THROW(algebra::upper_triangular(Matrix { { 1, 2, 3 }, { 4, 5, 6 } }), std::logic_error);
 
     // test case 1
-    Matrix matrix1{{1, 2}, {5, 7}};
-    Matrix res1{algebra::upper_triangular(matrix1)};
+    Matrix matrix1 { { 1, 2 }, { 5, 7 } };
+    Matrix res1 { algebra::upper_triangular(matrix1) };
     EXPECT_NEAR(res1[0][0], 1, 0.03);
     EXPECT_NEAR(res1[1][0], 0, 0.03);
     EXPECT_NEAR(res1[1][1], -3, 0.03);
 
     // test case 2
-    Matrix matrix2{{1, 2, 3}, {4, 7, 5}, {6, 1, 3}};
-    Matrix res2{algebra::upper_triangular(matrix2)};
+    Matrix matrix2 { { 1, 2, 3 }, { 4, 7, 5 }, { 6, 1, 3 } };
+    Matrix res2 { algebra::upper_triangular(matrix2) };
     EXPECT_NEAR(res2[0][0], 1, 0.03);
     EXPECT_NEAR(res2[1][0], 0, 0.03);
     EXPECT_NEAR(res2[2][0], 0, 0.03);
@@ -370,15 +370,14 @@ TEST(HW1Test, UPPER_TRIANGULAR1)
     EXPECT_NEAR(res2[2][2], 62, 0.03);
 }
 
-/*
-TEST(HW1Test, BONUS) {
+TEST(HW1Test, BONUS)
+{
     // test case
-    Matrix matrix2{{0, 2, 3}, {4, 7, 5}, {6, 1, 3}};
-    Matrix res2{algebra::upper_triangular(matrix2)};
+    Matrix matrix2 { { 0, 2, 3 }, { 4, 7, 5 }, { 6, 1, 3 } };
+    Matrix res2 { algebra::upper_triangular(matrix2) };
     EXPECT_NEAR(res2[0][0], 4, 0.03);
     EXPECT_NEAR(res2[1][0], 0, 0.03);
     EXPECT_NEAR(res2[2][0], 0, 0.03);
     EXPECT_NEAR(res2[2][1], 0, 0.03);
-    EXPECT_NEAR(res2[2][2], 39/4.0, 0.03);
+    EXPECT_NEAR(res2[2][2], 39 / 4.0, 0.03);
 }
-*/

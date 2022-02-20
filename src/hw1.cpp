@@ -248,10 +248,13 @@ Matrix algebra::upper_triangular(const Matrix& matrix)
                 output[j].swap(output[i]);
                 break;
             }
+    for (size_t k {}; k < matrix.size(); k++)
+        for (size_t z { k + 1 }; z < matrix.size(); z++)
+            output = algebra::ero_sum(output, k, -output[z][k] / output[k][k], z);
 
-    algebra::show(matrix);
-    algebra::show(output);
+    // algebra::show(matrix);
+    // algebra::show(output);
 
     return output;
 }
-//------------------------------------------------------------------------------------------
+//------------------------------------ The End :)) ---------------------------------
