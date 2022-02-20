@@ -74,7 +74,7 @@ Matrix algebra::multiply(const Matrix& matrix, double c)
     // If The Input Matrix is Empty.
     if (matrix.empty())
         return Matrix {};
-
+    // Definig The Output Matrix
     Matrix temp { matrix };
     for (size_t i {}; i < matrix.size(); i++)
         for (size_t j {}; j < matrix[0].size(); j++)
